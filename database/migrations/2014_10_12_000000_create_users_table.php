@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('corporate_name')->nullable();
             $table->string('password')->nullable();
             $table->string('type')->nullable();
+            $table->char('is_accept')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

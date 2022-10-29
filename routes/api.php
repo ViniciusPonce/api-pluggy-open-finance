@@ -24,15 +24,15 @@ Route::group([
 ], function ($router) {
 
     Route::post('register/admin', 'App\Http\Controllers\UserController@createUser');
-
+    Route::post('office/create', 'App\Http\Controllers\UserController@createUser');
+    Route::post('office/register', 'App\Http\Controllers\UserController@updateOfficeTerm'); 
+    Route::post('business/register', 'App\Http\Controllers\UserController@createUser'); 
 });
 
 
 Route::group([
-
     'middleware' => 'api',
     'prefix' => 'auth'
-
 ], function ($router) {
 
     Route::post('login', 'App\Http\Controllers\AuthController@login');

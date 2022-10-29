@@ -13,8 +13,10 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
+        $this->identifier = key($request->only(['cnpj', 'email', 'username']));
+  
         $this->middleware('auth:api', ['except' => ['login', 'me', 'refresh']]);
     }
 
@@ -26,7 +28,7 @@ class AuthController extends Controller
      */
     public function login()
     {
-        $credentials = request(['username', 'password']);
+        $credentials = request([$this->identifier, 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Não autorizado'], 401);

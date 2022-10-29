@@ -19,6 +19,10 @@ class User extends Authenticatable implements JWTSubject
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
 
+    const ADMINISTRATOR = 'administrator';
+    const BUSINESS = 'business';
+    const OFFICE = 'office';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -104,16 +108,38 @@ class User extends Authenticatable implements JWTSubject
     /**
      * 
      */
-    public function checkIfExist()
+    public function checkExistAdmin($user)
     {
-        $cnpj = (bool) $this->where('cnpj', $this->cnpj)->first();
-        $cpf = (bool) $this->where('email', $this->email)->first();
-        // dd($this);
-        if ($cnpj || $cpf) {
+        $username = (bool) $this->where('username', $user->username)->first();
+
+        if ($username) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * 
+     */
+    public function checkExistOffice($user)
+    {
+        $cnpj = (bool) $this->where('cnpj', $user->cnpj)->first();
+        $corporateName = (bool) $this->where('corporate_name', $user->corporate_name)->first();
+        // dd($cnpj, $corporateName);
+        if ($cnpj || $corporateName) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -140,6 +166,26 @@ class User extends Authenticatable implements JWTSubject
     public function getPermission()
     {
         return $this->permission;
+    }
+
+    /**
+     * 
+     */
+    public function hasPassword()
+    {
+        return isset($this->password);
+    }
+
+    /**
+     * 
+     */
+    public function findByCnpj($userOffice)
+    {
+        $cnpj = $userOffice['cnpj'];
+
+        $user = $this->where('cnpj', $cnpj)->first();
+
+        return $user;
     }
 
 }

@@ -36,10 +36,56 @@ class UserController extends Controller
             }
             $this->user->fill($user);
 
+            $this->service->validateTypeRegister($this->user);
+
             $response = $this->userRepository->create($this->user);
 
             return response()->json($response);
 
+        } catch (\Throwable $t) {
+            $response = ApiException::handler($t->getMessage(), $t->getCode());
+            
+            return response()->json($response);
+        }
+    }
+
+    /**
+     * 
+     */
+    public function updateOfficeTerm()
+    {
+        try {
+            $userOffice = $this->request->all();
+
+            if (empty($userOffice)) {
+                $message = 'Dados invalidos';
+
+                throw new Exception($message, 400);
+            }
+
+            $user = $this->userRepository->findByCnpj($userOffice);
+
+            $response = $this->userRepository->updateLoginOffice($user, $userOffice);
+
+            return response()->json($response);
+            
+        } catch (\Throwable $t) {
+            $response = ApiException::handler($t->getMessage(), $t->getCode());
+            
+            return response()->json($response);
+        }
+    }
+
+    /**
+     * 
+     */
+    public function acceptTerm()
+    {
+        try {
+
+            $this->userRepository->acceptTerm();
+
+            return response()->json();
         } catch (\Throwable $t) {
             $response = ApiException::handler($t->getMessage(), $t->getCode());
             
