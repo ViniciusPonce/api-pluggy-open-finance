@@ -174,6 +174,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
+
+        /**
+         * Auth Service Providers
+         */
+        PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
 
     ],
 

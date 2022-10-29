@@ -14,8 +14,9 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        // dd($request->header('authorization'), auth('api-business'));
         if (! $request->expectsJson()) {
-            return route('login');
+            return $next($request);
         }
     }
 }
