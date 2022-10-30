@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
+use App\Interfaces\AccountRepositoryInterface;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -9,9 +11,10 @@ class AccountController extends Controller
     /**
      * 
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, AccountRepositoryInterface $accountRepository)
     {
         $this->request = $request;
+        $this->accountRepository = $accountRepository;
     }
 
     /**
@@ -19,6 +22,15 @@ class AccountController extends Controller
      */
     public function getAccountsBusiness()
     {
-        dd('accountsList');
+        try {
+            $response = $this->accountRepository->getAllUsersBusiness();
+
+            return response()->json($response);
+
+        } catch (\Throwable $t) {
+            $response = ApiException::handler($t->getMessage(), $t->getCode());
+            
+            return response()->json($response);
+        }
     }
 }

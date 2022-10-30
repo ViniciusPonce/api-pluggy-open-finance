@@ -34,7 +34,7 @@ class ItemController extends Controller
     {
         try {
             $connectorId = $this->request->input('connectorId');
-            // dd(session());
+
             if (!auth()->check()) {
                 throw new Exception("Não autorizado", 400);
             }

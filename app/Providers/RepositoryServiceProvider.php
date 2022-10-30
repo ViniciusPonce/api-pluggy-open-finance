@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Interfaces\AccountRepositoryInterface;
 use App\Interfaces\PluggyItemInterface;
 use App\Interfaces\PluggyItemRepositoryInterface;
 use App\Repositories\PluggyItemRepository;
 use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\AccountRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +23,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PluggyItemInterface::class, PluggyItemRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PluggyItemRepositoryInterface::class, PluggyItemRepository::class);
+        $this->app->bind(AccountRepositoryInterface::class, AccountRepository::class);
     }
 
     /**
