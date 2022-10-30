@@ -23,6 +23,7 @@ class AccountController extends Controller
     public function getAccountsBusiness()
     {
         try {
+            // dd($this->request);
             $response = $this->accountRepository->getAllUsersBusiness();
 
             return response()->json($response);
