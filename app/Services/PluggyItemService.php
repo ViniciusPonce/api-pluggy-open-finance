@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Clients\PluggyItem as ClientPluggyItem;
+use App\Clients\PluggyItem;
 
 class PluggyItemService
 {
@@ -11,16 +11,37 @@ class PluggyItemService
     /**
      * 
      */
-    public function __construct(ClientPluggyItem $pluggyItem)
+    public function __construct(PluggyItem $pluggyItem)
     {
-        $this->pluggyItem = $pluggyItem;
+        $this->pluggyItemClient = $pluggyItem;
     }
 
     /**
      * 
      */
-    public function processCreateItem($userId, $user, $password, $connectorId, $apiKey)
+    public function processCreateItem($user, $connectorId, $apiKey)
     {
-        $response = $this->pluggyItem->createConnectionBank($apiKey, $user, $password, $connectorId);
+        $connectionData =  $this->pluggyItemClient->createConnectionBank($user, $connectorId, $apiKey);
+
+        return $this->normalizeDataConnection($connectionData, $connectorId);
     }
+
+    /**
+     * 
+     */
+    private function normalizeDataConnection($connectionData, $connectorId)
+    {
+        $connection = [
+            'nameBank' => $connectionData->connector->name,
+            'itemId' => $connectionData->id,
+            'idBank' => $connectorId,
+            'status' => $connectionData->status,
+            'executionStatus' => $connectionData->executionStatus,
+            'error' => $connectionData->error ?? null,
+            'latestUpdate' =>$connectionData->updatedAt
+        ];
+
+        return $connection;
+    }
+
 }

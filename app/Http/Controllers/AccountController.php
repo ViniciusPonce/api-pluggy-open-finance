@@ -6,5 +6,19 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-    //
+    /**
+     * 
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * 
+     */
+    public function getAccountsBusiness()
+    {
+        dd('accountsList');
+    }
 }

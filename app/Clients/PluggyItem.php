@@ -2,7 +2,9 @@
 
 namespace App\Clients;
 
-use Illuminate\Http\Client\Request;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PluggyItem
 {
@@ -13,23 +15,34 @@ class PluggyItem
     {
         $this->request = $request;
         $this->requestClient = $requestClient;
+        $this->baseUrl = config('pluggy.api.url');
     }
 
     /**
      * Cria conexão com o banco que quer utilizar
      */
-    public function createConnectionBank($apiKey, $user, $password, $connectorId)
+    public function createConnectionBank($user, $connectorId, $apiKey)
     {
 
         try {
+            // dd($user->pass);
+            $uri = config('pluggy.path.items');
 
-            $this->requestClient->post();
+            $dataClient = [
+                'parameters' => [
+                    'user' => 'user-ok',
+                    'password' => 'password-ok'
+                ],
+                'connectorId' => (int) $connectorId,
+            ];
+
+            // dd($dataClient);
+            return $this->requestClient->post($this->baseUrl, $uri, $dataClient, $apiKey);
 
         } catch (\Throwable $t) {
-
+            // dd($t);
+            throw new Exception("Falha na requisição", 400);
         }
-
-        return;
     }
 
     /**

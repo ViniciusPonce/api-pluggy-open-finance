@@ -4,6 +4,7 @@ namespace App\Clients;
 
 use Illuminate\Http\Request;
 use App\Clients\IORequest;
+use Exception;
 
 class PluggyAuth 
 {
@@ -31,10 +32,10 @@ class PluggyAuth
                 'clientSecret' => config('pluggy.info.clientSecret')
             ];
 
-            return $this->clientRequest->get($this->baseUrl, $uri, $dataClient);
+            return $this->clientRequest->postAuth($this->baseUrl, $uri, $dataClient);
 
         } catch (\Throwable $t) {
-
+            throw new Exception("Falha na requisição", 400);
         }
 
         return ;

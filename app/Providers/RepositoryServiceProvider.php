@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\PluggyItemInterface;
+use App\Interfaces\PluggyItemRepositoryInterface;
 use App\Repositories\PluggyItemRepository;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
@@ -19,6 +20,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(PluggyItemInterface::class, PluggyItemRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(PluggyItemRepositoryInterface::class, PluggyItemRepository::class);
     }
 
     /**
