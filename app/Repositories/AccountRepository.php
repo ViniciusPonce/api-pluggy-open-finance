@@ -20,12 +20,12 @@ class AccountRepository implements AccountRepositoryInterface
      */
     public function getAllUsersBusiness()
     {
-        $response = $this->user->where('type', User::OFFICE)->get();
+        $response = $this->user->where('type', User::BUSINESS)->get();
 
         if (!$response) {
             throw new Exception("Nenhum cliente encontrado", 400);
         }
-        
+
         return $response;
     }
 }
